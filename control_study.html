@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertising Study - Control Version</title>
+    <style>
+        /* (Previous styles remain the same) */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h1>Advertising Study - Control Version</h1>
+            <h2>Important Instructions:</h2>
+            <ul>
+                <li>You can only listen to this audio <strong>ONE TIME</strong></li>
+                <li>Please use headphones for the best experience</li>
+                <li>Ensure you're in a quiet environment</li>
+                <li>Listen to the entire audio without interruption</li>
+                <li>Once started, the audio cannot be paused or replayed</li>
+            </ul>
+        </div>
+
+        <div class="audio-section">
+            <button id="startButton" class="play-button">Start Audio</button>
+            <audio id="audioPlayer">
+                <source src="https://docs.google.com/uc?export=download&id=1nNbFZnZAAopv3BpZEZKcN98OQD2vc4Nr" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p id="message" class="message">You have already listened to this audio. Thank you for your participation!</p>
+        </div>
+    </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const message = document.getElementById('message');
+        const startButton = document.getElementById('startButton');
+
+        // Check if already played
+        if (localStorage.getItem('controlAudioPlayed')) {
+            startButton.style.display = 'none';
+            message.style.display = 'block';
+        }
+
+        startButton.addEventListener('click', function() {
+            startButton.style.display = 'none';
+            audioPlayer.style.display = 'block';
+            audioPlayer.play().catch(e => {
+                console.error('Error playing audio:', e);
+                alert('There was an error playing the audio. Please check your internet connection and try again.');
+            });
+        });
+
+        audioPlayer.addEventListener('canplay', function() {
+            console.log('Audio can start playing');
+        });
+
+        audioPlayer.addEventListener('error', function(e) {
+            console.error('Audio error:', e);
+            alert('There was an error loading the audio. Please check your internet connection and try again.');
+        });
+
+        audioPlayer.addEventListener('ended', function() {
+            localStorage.setItem('controlAudioPlayed', 'true');
+            audioPlayer.style.display = 'none';
+            message.style.display = 'block';
+        });
+
+        // Prevent seeking and pausing
+        audioPlayer.addEventListener('seeking', function(e) {
+            if (audioPlayer.currentTime > 0) {
+                audioPlayer.currentTime = 0;
+            }
+        });
+
+        audioPlayer.addEventListener('pause', function(e) {
+            if (audioPlayer.currentTime > 0 && audioPlayer.currentTime < audioPlayer.duration) {
+                audioPlayer.play();
+            }
+        });
+    </script>
+</body>
+</html>
