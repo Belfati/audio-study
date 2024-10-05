@@ -5,7 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advertising Study - Control Version</title>
     <style>
-        /* (Previous styles remain the same) */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .instructions {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .audio-section {
+            text-align: center;
+        }
+        #audioPlayer {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px 0;
+            display: none;
+        }
+        .message {
+            color: #d32f2f;
+            font-weight: bold;
+            padding: 20px;
+            display: none;
+            background-color: #ffe0e0;
+            border-radius: 8px;
+        }
+        .play-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px 0;
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+        }
+        .play-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -25,7 +77,7 @@
         <div class="audio-section">
             <button id="startButton" class="play-button">Start Audio</button>
             <audio id="audioPlayer">
-                <source src="https://belfati.github.io/audio-study/control.mp3" type="audio/mpeg">
+               <source src="https://belfati.github.io/audio-study/control.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
             <p id="message" class="message">You have already listened to this audio. Thank you for your participation!</p>
@@ -46,19 +98,7 @@
         startButton.addEventListener('click', function() {
             startButton.style.display = 'none';
             audioPlayer.style.display = 'block';
-            audioPlayer.play().catch(e => {
-                console.error('Error playing audio:', e);
-                alert('There was an error playing the audio. Please check your internet connection and try again.');
-            });
-        });
-
-        audioPlayer.addEventListener('canplay', function() {
-            console.log('Audio can start playing');
-        });
-
-        audioPlayer.addEventListener('error', function(e) {
-            console.error('Audio error:', e);
-            alert('There was an error loading the audio. Please check your internet connection and try again.');
+            audioPlayer.play();
         });
 
         audioPlayer.addEventListener('ended', function() {
